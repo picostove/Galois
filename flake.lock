@@ -1,0 +1,61 @@
+{
+  "nodes": {
+    "gem5": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1662923067,
+        "narHash": "sha256-THLlNiuMkGRvh+YzDe+mNC7vYcmA2Jd4Ml0I1ZAO4fw=",
+        "ref": "dev/stove/m5ops",
+        "rev": "ba3c732ba669ffb33d5bda63bcd303c4cd212c40",
+        "revCount": 18118,
+        "type": "git",
+        "url": "ssh://git@gitlab.ba.rivosinc.com/rv/sw/ext/gem5.git"
+      },
+      "original": {
+        "ref": "dev/stove/m5ops",
+        "type": "git",
+        "url": "ssh://git@gitlab.ba.rivosinc.com/rv/sw/ext/gem5.git"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1658500284,
+        "narHash": "sha256-g7vwZ5UF8PvC9f2/7Zf5O6zxgJiMSuh1CiGZVuuOhEQ=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "e3583ad6e533a9d8dd78f90bfa93812d390ea187",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "ref": "nixos-22.05",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1662821606,
+        "narHash": "sha256-Z9z9iSH+tgJ0iyRcBfEQRwELgjnhpVXsktiWiFe3SuY=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "93a0067a9c85c17764f7755947e6ecf52dc47d8a",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "ref": "nixos-unstable",
+        "type": "indirect"
+      }
+    },
+    "root": {
+      "inputs": {
+        "gem5": "gem5",
+        "nixpkgs": "nixpkgs_2"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
