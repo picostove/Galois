@@ -48,7 +48,7 @@
     packages = forAllSystems (system: let
       pkgs = nixpkgsFor.${system};
       galois-riscv64-benchmarks = pkgs.pkgsCross.riscv64.pkgsStatic.galois-benchmarks;
-      galois-benchmarks-native = pkgs.galois-benchmarks.override { stdenv = pkgs.impureUseNativeOptimizations pkgs.stdenv; };
+      galois-benchmarks-native = pkgs.galois-benchmarks.override { stdenv = pkgs.impureUseNativeOptimizations pkgs.gcc12Stdenv; };
     in {
       inherit galois-riscv64-benchmarks galois-benchmarks-native;
       default = galois-benchmarks-native;
