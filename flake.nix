@@ -7,7 +7,7 @@
 
   inputs.nixpkgs.url = "nixpkgs/nixos-unstable";
 
-  inputs.gem5.url = "git+ssh://git@gitlab.ba.rivosinc.com/rv/sw/ext/gem5.git?ref=dev/stove/m5ops";
+  inputs.gem5.url = "github:picostove/gem5";
 
   outputs = {
     self,
@@ -39,6 +39,7 @@
   in {
     overlays.default = final: prev: {
       galois-benchmarks = final.callPackage ./rivos/nix {
+        stdenv = final.gcc12Stdenv;
         src = self;
         inherit version;
       };

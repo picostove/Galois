@@ -5,18 +5,17 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1662923067,
-        "narHash": "sha256-THLlNiuMkGRvh+YzDe+mNC7vYcmA2Jd4Ml0I1ZAO4fw=",
-        "ref": "dev/stove/m5ops",
-        "rev": "ba3c732ba669ffb33d5bda63bcd303c4cd212c40",
-        "revCount": 18118,
-        "type": "git",
-        "url": "ssh://git@gitlab.ba.rivosinc.com/rv/sw/ext/gem5.git"
+        "lastModified": 1665360530,
+        "narHash": "sha256-LbU/S0R++4MmvZN1+1WFhX05aJQtJ2XCtQRTLYeSBL4=",
+        "owner": "picostove",
+        "repo": "gem5",
+        "rev": "91c2fb0f5a0a0cb8ae1b14cffe84722ece9b9c37",
+        "type": "github"
       },
       "original": {
-        "ref": "dev/stove/m5ops",
-        "type": "git",
-        "url": "ssh://git@gitlab.ba.rivosinc.com/rv/sw/ext/gem5.git"
+        "owner": "picostove",
+        "repo": "gem5",
+        "type": "github"
       }
     },
     "nixpkgs": {
