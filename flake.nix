@@ -5,53 +5,45 @@
 {
   description = "Galois";
 
-  inputs.nixpkgs.url = "nixpkgs/nixos-unstable";
+  inputs = {
+    nixpkgs.url = "github:rivosinc/nixpkgs/rivos/nixos-22.11?allRefs=1";
+    flake-parts.url = "github:hercules-ci/flake-parts";
 
-  inputs.gem5.url = "github:picostove/gem5";
+    gem5.url = "github:picostove/gem5";
+    gem5.inputs.nixpkgs.follows = "nixpkgs";
 
-  outputs = {
-    self,
-    nixpkgs,
-    gem5,
-  }: let
-    # to work with older version of flakes
-    lastModifiedDate = self.lastModifiedDate or self.lastModified or "19700101";
+    crosspkgs.url = "github:rivosinc/crosspkgs";
+    crosspkgs.inputs.nixpkgs.follows = "nixpkgs";
+  };
 
-    # Generate a user-friendly version number.
-    version = builtins.substring 0 8 lastModifiedDate;
-
-    # System types to support.
-    supportedSystems = [
-      "x86_64-linux"
-    ];
-
-    # Helper function to generate an attrset '{ x86_64-linux = f "x86_64-linux"; ... }'.
-    forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
-
-    # Nixpkgs instantiated for supported system types.
-    nixpkgsFor = forAllSystems (system:
-      import nixpkgs {
-        inherit system;
-        overlays = [
-          self.overlays.default
-        ];
-      });
-  in {
-    overlays.default = final: prev: {
-      galois-benchmarks = final.callPackage ./rivos/nix {
-        stdenv = final.gcc12Stdenv;
-        src = self;
-        inherit version;
+  outputs = inputs @ {
+    crosspkgs,
+    flake-parts,
+    ...
+  }:
+    flake-parts.lib.mkFlake {inherit inputs;}
+    {
+      imports = [
+        crosspkgs.flakeModules.default
+        flake-parts.flakeModules.easyOverlay
+      ];
+      perSystem = {
+        pkgs,
+        inputs',
+        lib,
+        ...
+      }: rec {
+        packages = rec {
+          galois-benchmarks = pkgs.callPackage ./rivos/nix {
+            src = inputs.self;
+            version = inputs.self.shortRev or "dirty";
+            libllvm = pkgs.libllvm.overrideAttrs (oldAttrs: {
+              cmakeFlags = oldAttrs.cmakeFlags ++ [ "-DLLVM_ENABLE_RTTI=ON" ];
+            });
+          };
+          default = galois-benchmarks;
+        };
+        overlayAttrs = packages;
       };
     };
-
-    packages = forAllSystems (system: let
-      pkgs = nixpkgsFor.${system};
-      galois-riscv64-benchmarks = pkgs.pkgsCross.riscv64.pkgsStatic.galois-benchmarks;
-      galois-benchmarks-native = pkgs.galois-benchmarks.override { stdenv = pkgs.impureUseNativeOptimizations pkgs.gcc12Stdenv; };
-    in {
-      inherit galois-riscv64-benchmarks galois-benchmarks-native;
-      default = galois-benchmarks-native;
-    });
-  };
 }

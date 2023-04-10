@@ -29,9 +29,9 @@ stdenv.mkDerivation rec {
   ];
 
   NIX_DEBUG = 1;
-  hardeningDisable = [ "all" ];
+  hardeningDisable = ["all"];
 
-  cmakeFlags = lib.optionals stdenv.hostPlatform.isRiscV [
+  cmakeFlags = lib.optionals (stdenv.hostPlatform != stdenv.buildPlatform) [
     "-DHAVE_HUGEPAGES_INTERNAL_EXITCODE=1"
     "-DHAVE_HUGEPAGES_INTERNAL_EXITCODE__TRYRUN_OUTPUT=none"
   ];
